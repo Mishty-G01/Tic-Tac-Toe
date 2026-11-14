@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0f0f1a;
+  color: #e0e0e0;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  color: #a78bfa;
+  text-transform: uppercase;
+}
+
+.status {
+  font-size: 1.2rem;
+  color: #c4b5fd;
+  min-height: 1.5em;
+}
+
+/* Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 110px);
+  grid-template-rows: repeat(3, 110px);
+  gap: 8px;
+}
+
+.square {
+  width: 110px;
+  height: 110px;
+  font-size: 2.8rem;
+  font-weight: 700;
+  border: 2px solid #3d3d5c;
+  border-radius: 12px;
+  background: #1a1a2e;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  color: inherit;
+}
+
+.square:hover {
+  background: #24243e;
+  transform: scale(1.04);
+}
+
+.square.x {
+  color: #f472b6;
+}
+
+.square.o {
+  color: #34d399;
+}
+
+.square.highlight {
+  background: #2d1b69;
+  border-color: #a78bfa;
+  box-shadow: 0 0 12px #a78bfa88;
+}
+
+/* Restart */
+.restart-btn {
+  margin-top: 4px;
+  padding: 10px 32px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #7c3aed;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.restart-btn:hover {
+  background: #6d28d9;
+}
+
+/* History */
+.history {
+  width: 100%;
+  max-width: 360px;
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 12px 16px;
+  border: 1px solid #3d3d5c;
+}
+
+.history summary {
+  cursor: pointer;
+  color: #a78bfa;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.history ul {
+  list-style: none;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history ul button {
+  background: #24243e;
+  border: 1px solid #3d3d5c;
+  color: #c4b5fd;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.15s;
+}
+
+.history ul button:hover {
+  background: #2d2d4e;
+}
+
+.history ul button.active-move {
+  border-color: #a78bfa;
+  color: #fff;
+}
