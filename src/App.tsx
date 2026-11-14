@@ -1,7 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 
-const WINNING_LINES = [
+type SquareValue = "X" | "O" | null;
+
+interface WinnerResult {
+  winner: SquareValue;
+  line: number[];
+}
+
+const WINNING_LINES: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -12,7 +19,7 @@ const WINNING_LINES = [
   [2, 4, 6],
 ];
 
-function calculateWinner(squares) {
+function calculateWinner(squares: SquareValue[]): WinnerResult | null {
   for (const [a, b, c] of WINNING_LINES) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return { winner: squares[a], line: [a, b, c] };
@@ -21,7 +28,13 @@ function calculateWinner(squares) {
   return null;
 }
 
-function Square({ value, onClick, highlight }) {
+interface SquareProps {
+  value: SquareValue;
+  onClick: () => void;
+  highlight: boolean;
+}
+
+function Square({ value, onClick, highlight }: SquareProps) {
   return (
     <button
       className={`square ${highlight ? "highlight" : ""} ${value ? value.toLowerCase() : ""}`}
@@ -32,11 +45,16 @@ function Square({ value, onClick, highlight }) {
   );
 }
 
-function Board({ squares, onPlay }) {
+interface BoardProps {
+  squares: SquareValue[];
+  onPlay: (next: SquareValue[]) => void;
+}
+
+function Board({ squares, onPlay }: BoardProps) {
   const result = calculateWinner(squares);
   const winningLine = result?.line ?? [];
 
-  function handleClick(i) {
+  function handleClick(i: number) {
     if (squares[i] || result) return;
     const next = squares.slice();
     const xIsNext = squares.filter(Boolean).length % 2 === 0;
@@ -59,7 +77,7 @@ function Board({ squares, onPlay }) {
 }
 
 export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [history, setHistory] = useState<SquareValue[][]>([Array(9).fill(null)]);
   const [step, setStep] = useState(0);
 
   const current = history[step];
@@ -67,7 +85,7 @@ export default function Game() {
   const xIsNext = current.filter(Boolean).length % 2 === 0;
   const isDraw = !result && current.every(Boolean);
 
-  let status;
+  let status: string;
   if (result) {
     status = `🏆 Player ${result.winner} wins!`;
   } else if (isDraw) {
@@ -76,7 +94,7 @@ export default function Game() {
     status = `Player ${xIsNext ? "X" : "O"}'s turn`;
   }
 
-  function handlePlay(next) {
+  function handlePlay(next: SquareValue[]) {
     const newHistory = history.slice(0, step + 1).concat([next]);
     setHistory(newHistory);
     setStep(newHistory.length - 1);
@@ -87,7 +105,7 @@ export default function Game() {
     setStep(0);
   }
 
-  function jumpTo(move) {
+  function jumpTo(move: number) {
     setStep(move);
   }
 
